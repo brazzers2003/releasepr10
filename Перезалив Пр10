@@ -1,0 +1,77 @@
+import java.util.ArrayList;  
+import java.util.List;  
+
+class Product {  
+    String name;  
+    double price;  
+    double discount; // Знижка у відсотках (0.1 = 10%)  
+
+    public Product(String name, double price, double discount) {  
+        this.name = name;  
+        this.price = price;  
+        this.discount = discount;  
+    }  
+
+    // Метод для обчислення ціни зі знижкою  
+    public double getDiscountedPrice() {  
+        return price - (price * discount); // вираховуємо ціну зі знижкою  
+    }  
+}  
+
+public class ShoppingCart {  
+    List<Product> items = new ArrayList<>();  
+
+    public void addProduct(Product product) {  
+        items.add(product);  
+    }  
+
+    public double calculateSubtotal() {  
+        double subtotal = 0;  
+        for (Product item : items) {  
+            subtotal += item.getDiscountedPrice(); // враховуємо ціну зі знижкою  
+        }  
+        return subtotal;  
+    }  
+
+    public double calculateSavings() {  
+        double savings = 0;  
+        for (Product item : items) {  
+            savings += item.price * item.discount; // загальна економія  
+        }  
+        return savings;  
+    }  
+
+    public double calculateFinalTotal() {  
+        double subtotal = calculateSubtotal();  
+        return subtotal; // загальна сума вже з урахуванням знижок  
+    }  
+
+    public void printBill() {  
+        System.out.println("**** Bill ****");  
+        for (Product item : items) {  
+            System.out.printf("%s: Original Price: $%.2f, Discounted Price: $%.2f\n",   
+                              item.name, item.price, item.getDiscountedPrice());  
+        }  
+        System.out.printf("Subtotal: $%.2f\n", calculateSubtotal());  
+        System.out.printf("Savings: $%.2f\n", calculateSavings());  
+        System.out.printf("Final Total: $%.2f\n", calculateFinalTotal());  
+        System.out.println("*********");  
+    }  
+
+    public static void main(String[] args) {  
+        Product product1 = new Product("Product 1", 10.0, 0.1);  
+        Product product2 = new Product("Product 2", 20.0, 0.15);  
+        Product product3 = new Product("Product 3", 15.0, 0.2);  
+        Product product4 = new Product("Product 4", 12.0, 0.1);  
+        Product product5 = new Product("Product 5", 25.0, 0.25);  
+
+        ShoppingCart cart = new ShoppingCart();  
+        cart.addProduct(product1);  
+        cart.addProduct(product2);  
+        cart.addProduct(product3);  
+        cart.addProduct(product4);  
+        cart.addProduct(product5);  
+
+        cart.printBill();  
+    }  
+}
